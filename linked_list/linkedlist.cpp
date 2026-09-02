@@ -6,11 +6,11 @@ List::List(){
 	sen.prev = &sen;
 }
 
-void List::insert(double k){ // passing the pointer of the node to be inserted cause better memory management and allat
+void List::insert(double k){ 
 	Node *x = new Node;
 	x->key = k;
-	x->next = sen.next; // since x is pointer, x->next is the same as (*x).next, and since next is also a pointer, there is no type error
-	sen.next->prev = x; // sen.next is a pointer, so sen.next->prev is the same as (*sen.next).prev. since both prev and x store addresses, no type errors exist.
+	x->next = sen.next; 
+	sen.next->prev = x; 
 	sen.next = x;
 	x->prev = &sen;
 }
@@ -25,7 +25,10 @@ void List::remove(double k){
 
 List::Node* List::search(double k){
 	Node *x = sen.next;
-	while(x != &sen && x->key != k)
+	sen.key = k; // to avoid adding x != &sen in while loop
+	// cause like, that condition is true for all cases except at tail
+	// then to verify whether the returned x is the sentinel or the element has been found, we can simply refer to x's address.
+	while(x->key != k)
 		x = x->next;
 	return x;
 }
